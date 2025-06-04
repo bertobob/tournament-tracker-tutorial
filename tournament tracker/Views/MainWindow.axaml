@@ -1,0 +1,33 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:tournament_tracker.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:tournament_tracker.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="tournament_tracker.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="tournament_tracker">
+
+	<Grid>
+		<views:MainView />
+		<TabControl Margin="5" TabStripPlacement="Left" >
+			<TabItem Header="Tournament Viewer">
+				<views:TournamentViewerView/>
+			</TabItem>
+			<TabItem Header="Create Tournament">
+				<views:CreateTournamentView/>
+			</TabItem>
+			<TabItem Header="Create Team">
+				<TextBlock Margin="5">This is tab 1 content</TextBlock>
+			</TabItem>
+			<TabItem Header="Create Prize">
+				<TextBlock Margin="5">This is tab 1 content</TextBlock>
+			</TabItem>
+			<TabItem Header="Tournament Dashboard">
+				<TextBlock Margin="5">This is tab 1 content</TextBlock>
+			</TabItem>
+			
+		</TabControl>
+	</Grid>
+</Window>

@@ -1,0 +1,82 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="tournament_tracker.Views.TournamentViewerView">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid Grid.Row="0" Grid.Column="0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="0.1*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="6*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+			</Grid.RowDefinitions>
+			
+			<TextBlock Text="" Grid.Row="0" Grid.Column="0"/>
+			<TextBlock Text="Tournament : " Grid.Row="1"/>
+			<TextBlock Text="" Grid.Row="2" Grid.Column="0"/>
+
+			<StackPanel Margin="0" Grid.Row="3" Orientation="Horizontal">
+				<TextBlock Text="Round  " HorizontalAlignment="Center"></TextBlock>
+				<ComboBox SelectedIndex="0" MaxDropDownHeight="100">
+					<ComboBoxItem>Text Item 1</ComboBoxItem>
+					<ComboBoxItem>Text Item 2</ComboBoxItem>					
+				</ComboBox>
+			</StackPanel>
+
+			
+			<CheckBox Grid.Row="4">Unplayed Only</CheckBox>
+			<ListBox Grid.Row="5">
+				<ListBoxItem Content="Match 1" />
+				<ListBoxItem Content="Match 2" />
+				<ListBoxItem Content="Match 3" />
+			</ListBox>
+			
+			
+			
+		</Grid>
+
+		<Grid Grid.Row="0" Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="3*"/>
+				<RowDefinition Height="6*"/>
+			</Grid.RowDefinitions>
+			<Grid Grid.Row="1">
+				<Grid Margin="30" VerticalAlignment="Stretch">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+					<TextBlock Text="Sample Team1" Grid.Row="0" Margin="5"/>
+					<StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
+						<TextBlock Text="Score" Margin="5" VerticalAlignment="Center"></TextBlock>
+						<TextBox  Watermark="Enter Score" Height="20" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" Grid.Row="2">
+						<TextBlock Text="     VS      " VerticalAlignment="Center"/>
+						<Button  HorizontalAlignment="Left">Score</Button>
+					</StackPanel>
+					<TextBlock Text="Sample Team2" Grid.Row="3" VerticalAlignment="Center"/>
+					<StackPanel Orientation="Horizontal" Grid.Row="4" VerticalAlignment="Center">
+						<TextBlock Text="Score" Margin="5" VerticalAlignment="Center"></TextBlock>
+						<TextBox  Watermark="Enter Score" Height="20" />
+					</StackPanel>
+					
+				</Grid>
+			
+			</Grid>
+		</Grid>
+		
+	</Grid>
+</UserControl>
