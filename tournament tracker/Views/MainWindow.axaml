@@ -19,13 +19,13 @@
 				<views:CreateTournamentView/>
 			</TabItem>
 			<TabItem Header="Create Team">
-				<TextBlock Margin="5">This is tab 1 content</TextBlock>
+				<views:CreateTeamView/>
 			</TabItem>
 			<TabItem Header="Create Prize">
-				<TextBlock Margin="5">This is tab 1 content</TextBlock>
+				<views:CreatePrizeView/>
 			</TabItem>
 			<TabItem Header="Tournament Dashboard">
-				<TextBlock Margin="5">This is tab 1 content</TextBlock>
+				<views:TournamentDashboardView/>
 			</TabItem>
 			
 		</TabControl>

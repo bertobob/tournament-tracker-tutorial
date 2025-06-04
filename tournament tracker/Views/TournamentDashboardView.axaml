@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="tournament_tracker.Views.TournamentDashboardView">
+
+	<Grid  VerticalAlignment="Top" Margin="50">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<TextBlock Text="Load Existing Tournament" Grid.Row="0" Margin="0,10,0,0"/>
+		<ComboBox Margin="0,10,0,0" Grid.Row="1">
+			<ComboBoxItem>item1</ComboBoxItem>
+		</ComboBox>
+		<Button Grid.Row="2" Margin="0,10,0,0" >
+			Load Tournament
+		</Button>
+		<Button Grid.Row="3" Margin="0,10,0,0" >
+		Create Tournament
+		</Button>
+	</Grid>
+</UserControl>

@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="tournament_tracker.Views.CreateTeamView">
+
+
+<Grid>
+	<Grid.ColumnDefinitions>
+		<ColumnDefinition Width="*"/>
+		<ColumnDefinition Width="*"/>
+	</Grid.ColumnDefinitions>
+	<Grid Grid.Column="0">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="4*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			
+		</Grid.RowDefinitions>
+		<TextBlock Text="Team Name" Grid.Row="0"/>
+		<TextBox Watermark="Enter Teamname" Grid.Row="1"/>
+		<TextBlock Text="Select Team Member" Grid.Row="2"/>
+		<ComboBox Grid.Row="3"/>
+		<Button Grid.Row="4">
+			Add Member
+		</Button>
+		<TextBlock Text="Create new Member :" Grid.Row="5"/>
+		<Grid Grid.Row="6">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="First Name"/>
+			<TextBox Watermark="Enter first name" Grid.Row="0" Grid.Column="1"/>
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="Last Name"/>
+			<TextBox Watermark="Enter last name" Grid.Row="1" Grid.Column="1"/>
+			<TextBlock Grid.Row="2" Grid.Column="0" Text="Email"/>
+			<TextBox Watermark="Enter mailadress" Grid.Row="2" Grid.Column="1"/>
+			<TextBlock Grid.Row="3" Grid.Column="0" Text="Cellphone"/>
+			<TextBox Watermark="Enter phonenumber" Grid.Row="3" Grid.Column="1"/>
+			
+		</Grid>
+		<Button Grid.Row="7">
+			Create Member
+		</Button>
+		<Button Grid.Row="8">
+			Create Team
+		</Button>
+	</Grid>
+	<ListBox Margin="40" Grid.Column="1">
+		<ListBoxItem>item1</ListBoxItem>
+	</ListBox>
+	
+</Grid>
+</UserControl>
