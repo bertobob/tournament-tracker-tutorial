@@ -11,7 +11,7 @@
 
 	<Grid>
 		<views:MainView />
-		<TabControl Margin="5" TabStripPlacement="Left" >
+		<TabControl Margin="10,10,10,50" TabStripPlacement="Left" x:Name="TabController" >
 			<TabItem Header="Tournament Viewer">
 				<views:TournamentViewerView/>
 			</TabItem>

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="tournament_tracker.Views.CreatePrizeView">
-	<Grid Margin="50">
+	<Grid MaxHeight="300" MaxWidth="600" Margin="20" VerticalAlignment="Top"  >
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="*"/>
@@ -17,17 +17,27 @@
 			<ColumnDefinition Width="*"/>
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
-		<TextBlock Text="Place Number" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
-		<TextBox Watermark="Enter place number" Grid.Column="1" Grid.Row="0" Height="20"/>
-		<TextBlock Text="Place Name" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" />
-		<TextBox Watermark="Enter place name" Grid.Column="1" Grid.Row="1" Height="20"/>
-		<TextBlock Text="Prize Amount " Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
-		<TextBox Watermark="Enter price amount" Grid.Column="1" Grid.Row="2" Height="20"/>
+		<TextBlock Text="Place Number"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
+		<TextBox Watermark="Enter place number" x:Name="PlaceNumberTextBox" Grid.Column="1" Grid.Row="0" Height="20"/>
+		<TextBlock Text="Place Name"  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" />
+		<TextBox Watermark="Enter place name" x:Name="PlaceNameTextBox" Grid.Column="1" Grid.Row="1" Height="20"/>
+		<TextBlock Text="Prize Amount "  Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
+		<TextBox Watermark="Enter price amount" x:Name="PrizeAmountTextBox" Grid.Column="1" Grid.Row="2" Height="20"/>
 		<TextBlock Text="- or -" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
 		<TextBlock Text="Prize Percentage" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" />
-		<TextBox Watermark="Enter percentage" Grid.Column="1" Grid.Row="4" Height="20"/>
-		<Button Grid.Row="5" VerticalAlignment="Center" Grid.ColumnSpan="2" >
-			Create Prize
-		</Button>
+		<TextBox Watermark="Enter percentage" x:Name="PricePercentageTextBox" Grid.Column="1" Grid.Row="4" Height="20"/>
+		<Grid Grid.Row="5" ColumnSpan="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			
+			<Button Click="OnCreatePrizeClicked" Grid.Column="0" VerticalAlignment="Center"   >
+				Create Prize
+			</Button>
+			<TextBlock x:Name="Message" Grid.Column="2" VerticalAlignment="Center"/>
+		</Grid>
+		
 	</Grid>
 </UserControl>

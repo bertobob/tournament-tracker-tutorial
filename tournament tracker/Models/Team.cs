@@ -9,10 +9,17 @@ namespace tournament_tracker.Models
     public class Team
     {
         public List<Person> TeamMembers { get; set; } = new List<Person>();
-        public String TeamName { get; set; }
+        public int Id { get; set; }
+        public string TeamName { get; set; }
         public Team()
         {
 
+        }
+
+        public Team(int id, string teamName)
+        {
+            Id = id;
+            TeamName = teamName;
         }
     }
 }
