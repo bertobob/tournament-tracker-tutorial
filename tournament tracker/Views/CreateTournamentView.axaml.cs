@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using DynamicData;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -60,6 +61,7 @@ public partial class CreateTournamentView : UserControl
         {
             teams.Add((Team)SelectTeamComboBox.SelectedItem);
             selectableTeams.Remove((Team)SelectTeamComboBox.SelectedItem);
+            if (selectableTeams.Count > 0) SelectTeamComboBox.SelectedIndex = 0;
         }
     }
 
@@ -89,6 +91,7 @@ public partial class CreateTournamentView : UserControl
         {
             prizes.Add((Prize)PrizeListListBox.SelectedItem);
             selectablePrizes.Remove((Prize)PrizeListListBox.SelectedItem);
+            if (selectablePrizes.Count > 0) PrizeListListBox.SelectedIndex = 0;
             
         }
     }
@@ -105,8 +108,7 @@ public partial class CreateTournamentView : UserControl
     {
         bool isValid = decimal.TryParse(EntryFeeTextBox.Text, out decimal fee);
         if (!isValid || fee<0)
-        {
-            Debug.WriteLine($"{fee} kein gueltiger wert");
+        {  
             EntryFeeTextBox.Background = Brushes.LightCoral;
         }
         else EntryFeeTextBox.Background = Brushes.White;
@@ -116,7 +118,7 @@ public partial class CreateTournamentView : UserControl
             isValid = false;
         }
         else TournamentNameTextBox.Background = Brushes.White;
-        if (teams.Count>0 && isValid)
+        if (teams.Count>1 && isValid)
         {
             int id=GlobalConfig.Connections[0].AddTournament(TournamentNameTextBox.Text,fee);
             foreach (var team in teams)
@@ -131,9 +133,81 @@ public partial class CreateTournamentView : UserControl
                     GlobalConfig.Connections[0].AddTournamentPrize(id, prize.Id);
                 }
             }
+            CreateMatchups(id);
+            CreateTournamentStatus.Text = "Tournament created !";
 
         }
+        else CreateTournamentStatus.Text = "Tournament not created !";
+
+
+    }
+    
+    public void AddTeam(Team team)
+    {
+        selectableTeams.Add(team);
+    }
+
+    private void CreateMatchups(int tournamentId)
+    {
+        List<Team> teamCopy = new List<Team>(teams);
+        Team teamA, teamB;
+        Random rng = new Random();
+        int matchupId;
+        int currentRound=2;
+        int temp;
+        int exponent = 1;        
+        while (exponent * 2 <= teamCopy.Count) exponent *= 2; // get the amount of max number if teams in round 1
+        exponent *= 2;
+        int remainingMatchesInCurrentRound;
+        Debug.WriteLine("exponent = " + exponent);
+        temp =  (2* teamCopy.Count -exponent) / 2; // number of players in 1rst round
+        for (int i=0; i<temp; i++)    // rest starts round 2
+        {
+            Debug.WriteLine("in 1rst loop");
+            teamA = teamCopy[rng.Next(teamCopy.Count - 1)];
+            teamCopy.Remove(teamA);
+            teamB = teamCopy[rng.Next(teamCopy.Count - 1)];
+            teamCopy.Remove(teamB);
+            matchupId=GlobalConfig.Connections[0].AddMatchup(tournamentId, teamA.Id, teamB.Id,1);
+         
+        }
+        exponent /= 2;    // remaining matches 
+        remainingMatchesInCurrentRound = exponent/2;
+        while (teamCopy.Count > 0)
+        {
+            teamA = teamCopy[rng.Next(teamCopy.Count - 1)];
+            teamCopy.Remove(teamA);
+            if (teamCopy.Count > 0)
+            {
+                teamB = teamCopy[rng.Next(teamCopy.Count - 1)];
+                teamCopy.Remove(teamB);
+            }
+            else teamB = null;
+            if (teamB == null)
+            {
+                matchupId = GlobalConfig.Connections[0].AddMatchup(tournamentId, teamA.Id, null,2);
+                
+            }
+            else
+            {
+                matchupId = GlobalConfig.Connections[0].AddMatchup(tournamentId, teamA.Id, teamB.Id,2);
+                
+            }
+            remainingMatchesInCurrentRound--;
+        }
         
+        while (exponent>1)   // exponent=1 means final match
+        {
+            for (int i = 0; i < remainingMatchesInCurrentRound; i++)
+            {
+                matchupId = GlobalConfig.Connections[0].AddMatchup(tournamentId, null, null,currentRound);
+                
+            }
+            currentRound++;
+            exponent /= 2;
+            remainingMatchesInCurrentRound = exponent/2;
+        }
+
 
     }
 }

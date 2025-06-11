@@ -12,17 +12,17 @@
 	<Grid>
 		<views:MainView />
 		<TabControl Margin="10,10,10,50" TabStripPlacement="Left" x:Name="TabController" >
-			<TabItem Header="Tournament Viewer">
-				<views:TournamentViewerView/>
+			<TabItem Header="Tournament Viewer" x:Name="TournamentView">
+				<views:TournamentViewerView x:Name="TournamentViewer" />
 			</TabItem>
 			<TabItem Header="Create Tournament">
-				<views:CreateTournamentView/>
+				<views:CreateTournamentView x:Name="CreateTournamentViewer"/>
 			</TabItem>
 			<TabItem Header="Create Team">
-				<views:CreateTeamView/>
+				<views:CreateTeamView x:Name="CreateTeamViewer"/>
 			</TabItem>
 			<TabItem Header="Create Prize">
-				<views:CreatePrizeView/>
+				<views:CreatePrizeView x:Name="CreatePrizeViewer"/>
 			</TabItem>
 			<TabItem Header="Tournament Dashboard">
 				<views:TournamentDashboardView/>

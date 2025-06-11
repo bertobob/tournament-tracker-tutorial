@@ -13,6 +13,7 @@ namespace tournament_tracker.Configuration
         public static List<Person> Persons { get; private set; } = new(); // <-- global
         public static List<Team> Teams { get; private set; } = new();
         public static List<Prize> Prizes { get; set; } = new();
+        public static Tournament CurrentTournament { get; set; } = new Tournament();
         public static void InitializeConnections(bool database, bool textFiles)
         {
             if (database)

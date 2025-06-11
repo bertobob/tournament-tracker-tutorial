@@ -15,6 +15,7 @@
 				Create Tournament
 			</Button>
 			<TextBox Watermark="Enter Entry Fee" x:Name ="EntryFeeTextBox" HorizontalAlignment="Right" Height="20" />
+			<TextBlock x:Name="CreateTournamentStatus" Margin="30,0,0,0"/>
 		</StackPanel>
 
 			<Grid Grid.Row="1">

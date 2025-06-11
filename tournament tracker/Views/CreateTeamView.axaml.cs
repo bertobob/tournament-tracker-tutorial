@@ -139,14 +139,26 @@ public partial class CreateTeamView : UserControl
     }
     private void OnCreateTeamClicked(object? sender, RoutedEventArgs e)
     {
-        if(TeamMembers.Count >0 && TeamnameTextBox.Text!="" && TeamnameTextBox.Text!=null )
+        if (TeamnameTextBox.Text == "" || TeamnameTextBox.Text==null) TeamnameTextBox.Background = Brushes.LightCoral;
+        else TeamnameTextBox.Background = Brushes.White;
+        if (TeamMembers.Count == 0) SelectMemberComboBox.Background = Brushes.LightCoral;
+        else SelectMemberComboBox.Background = Brushes.White;
+        if (TeamMembers.Count > 0 && TeamnameTextBox.Text != "" && TeamnameTextBox.Text != null)
         {
             int teamID = GlobalConfig.Connections[0].CreateTeam(TeamnameTextBox.Text);
             foreach (Person member in TeamMembers)
             {
                 GlobalConfig.Connections[0].AddTeamMember(teamID, member.ID);
             }
-            
+            var mainWindow = (MainWindow)VisualRoot;
+            var tab2 = mainWindow.FindControl<TabItem>("CreateTournamentView");
+            if (mainWindow.CreateTournamentViewer != null)
+            {
+                // 2. Methode aufrufen
+                mainWindow.CreateTournamentViewer.AddTeam(new Team(teamID, TeamnameTextBox.Text));
+            }
+            CreateTeamStatus.Text = "Team Created !";
         }
+        else CreateTeamStatus.Text = "Create Team failed !";
     }
 }

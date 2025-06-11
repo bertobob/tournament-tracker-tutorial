@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
-
-
-
 using tournament_tracker.Models;
 
 namespace tournament_tracker.Configuration
@@ -50,6 +48,92 @@ namespace tournament_tracker.Configuration
             return persons;
         }
 
+        public string GetTeamNameById(int id)
+        {
+            string name="";
+            try
+            {
+                string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TournamentTrackerDB;Integrated Security=True;";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"select TeamName from Teams where id=@id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", id);
+                        connection.Open();
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                name = reader["TeamName"].ToString();
+                            }
+                        }
+                    }
+
+                }
+                return name;
+            }
+            catch (SqlException ex)
+            {
+                Debug.WriteLine("DB fehler in GetTeamNameById");
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        public bool AddTeamToNextRound(int nextMatchId, int? teamAId, int? teamBId)
+        {
+            try
+            {
+                string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TournamentTrackerDB;Integrated Security=True;";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"update Matchup set teamAId=@teamAId, teamBId=@teamBId where id=@id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", nextMatchId);
+                        command.Parameters.Add("@teamAId", SqlDbType.Int).Value =teamAId.HasValue ? teamAId.Value : DBNull.Value;
+                        command.Parameters.Add("@teamBId", SqlDbType.Int).Value = teamBId.HasValue ? teamBId.Value : DBNull.Value;
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                Debug.WriteLine("DB fehler in UpdateScore");
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        public bool UpdateScore(int id, int team1Score, int team2Score, int winnerId)
+        {
+            try
+            {
+                string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TournamentTrackerDB;Integrated Security=True;";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"update Matchup set teamAScore=@team1Score, teamBScore=@team2Score, winnerID=@winnerId where id=@id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", id);
+                        command.Parameters.AddWithValue("@team1Score", team1Score);
+                        command.Parameters.AddWithValue("@team2Score", team2Score);
+                        command.Parameters.AddWithValue("@winnerId", winnerId);
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                Debug.WriteLine("DB fehler in UpdateScore");
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
+        }
         public List <Team> GetAllTeams()
         {
             List<Team> teams = new();
@@ -303,6 +387,154 @@ namespace tournament_tracker.Configuration
                 Debug.WriteLine(ex.Message);
                 return null;
             }
+        }
+
+        public int AddMatchup(int tournamentId, int? teamAId, int? teamBId, int roundNumber)
+        {
+            try
+            {
+                string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TournamentTrackerDB;Integrated Security=True;";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"insert into Matchup values (@tournamentId,@teamAId,@teamBId,null,null,@roundNumber,null);
+                                     SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@tournamentId", tournamentId);
+                        command.Parameters.Add("@teamAId", SqlDbType.Int).Value = (object?)teamAId ?? DBNull.Value;
+                        command.Parameters.Add("@teamBId", SqlDbType.Int).Value = (object?)teamBId ?? DBNull.Value;
+                        command.Parameters.AddWithValue("@roundNumber", roundNumber);
+                        connection.Open();
+                        return (int)command.ExecuteScalar();
+                        
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Debug.WriteLine("DB fehler in AddMatchup");
+                Debug.WriteLine(ex.Message);
+                return -1;
+            }
+        }
+
+        public bool AddMatchupEntry(int matchupId, int roundNumber, int? winnerId)
+        {
+            try
+            {
+                string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TournamentTrackerDB;Integrated Security=True;";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"insert into MatchupEntries values (@matchupId,@roundnumber,@winnerId);";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@matchupId", matchupId);
+                        command.Parameters.AddWithValue("@roundnumber", roundNumber);
+                        //command.Parameters.AddWithValue("@winnerId", winnerId);
+                        command.Parameters.Add("@winnerId", SqlDbType.Int).Value = (object?)winnerId ?? DBNull.Value;
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Debug.WriteLine("DB fehler in AddMatchupEntry");
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public List<Tournament> GetTournaments()
+        {
+            List<Tournament> tournaments = new List<Tournament>();
+        
+            try
+            {
+                string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TournamentTrackerDB;Integrated Security=True;";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"select * from Tournaments";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        connection.Open();
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                tournaments.Add(new Tournament((int)reader["id"], reader["TournamentName"].ToString(), (decimal)reader["EntryFee"]));
+                            }
+                        }
+                    }
+
+                }
+                return tournaments;
+            }
+            catch (SqlException ex)
+            {
+                Debug.WriteLine("DB fehler in GetTournaments");
+                Debug.WriteLine(ex.Message);
+                return tournaments;
+            }
+
+        }
+
+        public List <Matchup> GetTournamentMatches(int tournamentId)
+        {
+            List<Matchup> matchups = new List<Matchup>();
+            int id;
+           
+            try
+            {
+                string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TournamentTrackerDB;Integrated Security=True;";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"select * from Matchup where tournamentId=@tournamentId";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@tournamentId", tournamentId);
+                        connection.Open();
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                // public Matchup( Team teamA, Team teamB, Team winner, int teamAScore, int teamBScore, int id)
+                                Debug.WriteLine("id : " + reader["id"]);
+                                Debug.WriteLine("tournamentId : " + reader["tournamentId"]);
+                                Debug.WriteLine("teamAId : " + reader["teamAId"]);
+                                Debug.WriteLine("teamBId : " + reader["teamBId"]);
+                                Debug.WriteLine("teamAScore : " + reader["teamAScore"]);
+                                Debug.WriteLine("teamBScore : " + reader["teamBScore"]);
+                                Debug.WriteLine("roundNumer : " + reader["roundNumber"]);
+                                Debug.WriteLine("winnerId : " + reader["winnerID"]);
+
+                                matchups.Add(new Matchup(
+                                    (int)reader["id"],
+                                    (int)reader["tournamentId"],
+                                    reader["teamAId"] is DBNull ? null : (int?)reader["teamAId"],
+                                    reader["teamBId"] is DBNull ? null : (int?)reader["teamBId"],
+                                    reader["teamAScore"] is DBNull ? null : (int?)reader["teamAScore"],
+                                    reader["teamBScore"] is DBNull ? null : (int?)reader["teamBScore"],
+                                    (int)reader["roundNumber"],
+                                    reader["winnerID"] is DBNull ? null : (int?)reader["winnerID"]
+                                ));
+                            }
+                                
+                        }
+                        
+                    }
+
+                }
+                return matchups;
+            }
+            catch (SqlException ex)
+            {
+                Debug.WriteLine("DB fehler in GetTournaments");
+                Debug.WriteLine(ex.Message);
+                return matchups;
+            }
+
         }
     }
 

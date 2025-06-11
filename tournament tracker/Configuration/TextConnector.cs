@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Avalonia.Controls.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using tournament_tracker.Models;
 
 namespace tournament_tracker.Configuration
@@ -58,6 +60,40 @@ namespace tournament_tracker.Configuration
         public bool AddTournamentPrize(int id, int prizeId)
         {
             return false;
+        }
+
+        public int AddMatchup(int tournamentId, int? teamAId, int? teamBId, int roundNumber)
+        {
+            return -1;
+        }
+
+        public bool AddMatchupEntry(int matchupId, int roundNumber, int? winnerId)
+        {
+            return false;
+        }
+        
+        public string GetTeamNameById(int id)
+        {
+            return "keinen";
+        }
+
+        public bool UpdateScore(int id, int teamAId, int team1Score, int winnerId)
+        {
+            return false;
+        }
+
+        public bool AddTeamToNextRound(int nextMatchId, int? teamAId, int? teamBId)
+        {
+            return false;
+        }
+        public List<Tournament> GetTournaments()
+        {
+            return new List<Tournament>();
+        }
+
+        public List<Matchup> GetTournamentMatches(int tournamentId)
+        {
+            return new List<Matchup>();
         }
     }
 }

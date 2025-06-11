@@ -21,23 +21,32 @@
 			</Grid.RowDefinitions>
 			
 			<TextBlock Text="" Grid.Row="0" Grid.Column="0"/>
-			<TextBlock Text="Tournament : " Grid.Row="1"/>
-			<TextBlock Text="" Grid.Row="2" Grid.Column="0"/>
+			<StackPanel Grid.Row="1"  Orientation="Horizontal">
+			<TextBlock Text="Tournament : " />
+			<TextBlock Text=""  x:Name="TName"/>
+			</StackPanel>
 
 			<StackPanel Margin="0" Grid.Row="3" Orientation="Horizontal">
 				<TextBlock Text="Round  " HorizontalAlignment="Center"></TextBlock>
-				<ComboBox SelectedIndex="0" MaxDropDownHeight="100">
-					<ComboBoxItem>Text Item 1</ComboBoxItem>
-					<ComboBoxItem>Text Item 2</ComboBoxItem>					
+				<ComboBox SelectedIndex="0" MaxDropDownHeight="100" x:Name="RoundSelectComboBox"  SelectionChanged="RoundSelectComboBox_SelectionChanged">
+								
 				</ComboBox>
 			</StackPanel>
 
+			<StackPanel Grid.Row="4" Orientation="Horizontal">
+			<CheckBox  x:Name="UnplayedOnly" Checked="UnplayedOnly_CheckedChanged"
+          Unchecked="UnplayedOnly_CheckedChanged">Unplayed Only</CheckBox>
+				<TextBlock x:Name="TournamentViewerStatus" Margin="30,0,0,0" VerticalAlignment="Center"/>
+
+			</StackPanel>
+			<ListBox Grid.Row="5" x:Name="MatchesListBox" SelectionChanged="MatchesListBox_SelectionChanged">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Id}" />
+					</DataTemplate>
+				</ListBox.ItemTemplate>
 			
-			<CheckBox Grid.Row="4">Unplayed Only</CheckBox>
-			<ListBox Grid.Row="5">
-				<ListBoxItem Content="Match 1" />
-				<ListBoxItem Content="Match 2" />
-				<ListBoxItem Content="Match 3" />
+				
 			</ListBox>
 			
 			
@@ -58,19 +67,19 @@
 						<RowDefinition Height="*"/>
 						<RowDefinition Height="*"/>
 					</Grid.RowDefinitions>
-					<TextBlock Text="Sample Team1" Grid.Row="0" Margin="5"/>
+					<TextBlock Text="Sample Team1" Grid.Row="0" Margin="5" x:Name="Team1Name"/>
 					<StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
 						<TextBlock Text="Score" Margin="5" VerticalAlignment="Center"></TextBlock>
-						<TextBox  Watermark="Enter Score" Height="20" />
+						<TextBox  Watermark="Enter Score" Height="20" x:Name="Team1Score"/>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Grid.Row="2">
 						<TextBlock Text="     VS      " VerticalAlignment="Center"/>
-						<Button  HorizontalAlignment="Left">Score</Button>
+						<Button  HorizontalAlignment="Left" Click="OnScoreClicked" x:Name="ScoreButton">Score</Button>
 					</StackPanel>
-					<TextBlock Text="Sample Team2" Grid.Row="3" VerticalAlignment="Center"/>
+					<TextBlock Text="" Grid.Row="3" VerticalAlignment="Center" x:Name="Team2Name"/>
 					<StackPanel Orientation="Horizontal" Grid.Row="4" VerticalAlignment="Center">
 						<TextBlock Text="Score" Margin="5" VerticalAlignment="Center"></TextBlock>
-						<TextBox  Watermark="Enter Score" Height="20" />
+						<TextBox  Watermark="Enter Score" Height="20" x:Name="Team2Score"/>
 					</StackPanel>
 					
 				</Grid>

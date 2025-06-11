@@ -16,6 +16,7 @@ public partial class App : Application
 
         AvaloniaXamlLoader.Load(this);
         GlobalConfig.InitializeConnections(true, false);
+
     }
 
     public override void OnFrameworkInitializationCompleted()

@@ -8,27 +8,18 @@ namespace tournament_tracker.Models
 {
     public class MatchupEntry
     {
-        /// <summary>
-        /// Represents 1 team in the matchup
-        /// </summary>
-        public Team TeamCompeting {  get; set; }
-        /// <summary>
-        /// Represents the score for this particualar Team
-        /// </summary>
-        public double Score {  get; set; }
-        /// <summary>
-        /// Represents the matchup that this team cam from
-        /// as winner
-        /// </summary>
-        public Matchup ParentMatchup { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="initialScore">
-        /// </param>
-        public MatchupEntry(double initialScore)
+        public int Id { get; set; } 
+        public int MatchupId {  get; set; }
+        public int RoundNumber { get; set; }
+        public int? WinnerID { get; set; }
+        public MatchupEntry(int id, int matchupId, int roundNumber,int? winnerId) 
         {
-
+            Id = id;
+            MatchupId = matchupId;  
+            RoundNumber = roundNumber;
+            WinnerID = winnerId;
+              
+           
         }
     }
 }
